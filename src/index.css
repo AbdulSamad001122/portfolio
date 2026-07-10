@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-primary-gray: hsl(180, 8%, 98%);
+  --color-card-white: hsl(0, 0%, 100%);
+  --color-accent-green: hsl(160, 100%, 26%);
+  --color-accent-green-light: hsl(152, 90%, 94%);
+  --color-text-primary-navy: hsl(218, 76%, 15%);
+  --color-text-secondary-gray: hsl(218, 15%, 45%);
+  --color-border-light-gray: hsl(220, 10%, 89%);
+  --color-grid-line-gray: hsl(220, 13%, 93%);
+  
+  --font-sans: "Plus Jakarta Sans", "Inter", sans-serif;
+  --font-accent: "Outfit", sans-serif;
+}
+
+body {
+  background-color: var(--color-primary-gray);
+  color: var(--color-text-primary-navy);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  margin: 0;
+}
+
+/* Scrolling marquee animations */
+@keyframes scroll-left {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes scroll-right {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+.animate-scroll-left {
+  animation: scroll-left 35s linear infinite;
+}
+
+.animate-scroll-right {
+  animation: scroll-right 35s linear infinite;
+}
+
+/* Rotating badge keyframe */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin-slow {
+  animation: spin 20s linear infinite;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-primary-gray);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-light-gray);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-secondary-gray);
+}

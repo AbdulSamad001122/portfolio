@@ -1,0 +1,198 @@
+Created At: 2026-07-08T15:44:31Z
+Completed At: 2026-07-08T15:44:31Z
+File Path: `file:///e:/potfolio/src/App.tsx`
+Total Lines: 190
+Total Bytes: 6103
+Showing lines 1 to 190
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: import { useLayoutEffect, useRef, useState, useEffect } from 'react';
+2: import gsap from 'gsap';
+3: import { ScrollTrigger } from 'gsap/ScrollTrigger';
+4: 
+5: import Navbar from './components/Navbar';
+6: import Hero from './components/Hero';
+7: import SocialProof from './components/SocialProof';
+8: import PortfolioGrid from './components/PortfolioGrid';
+9: import TweetsSection from './components/TweetsSection';
+10: import LatestBlogs from './components/LatestBlogs';
+11: import AboutMe from './components/AboutMe';
+12: import Tools from './components/Tools';
+13: import ExperienceTimeline from './components/ExperienceTimeline';
+14: import Footer from './components/Footer';
+15: import ProjectDetails from './components/ProjectDetails';
+16: import AllProjects from './components/AllProjects';
+17: 
+18: gsap.registerPlugin(ScrollTrigger);
+19: 
+20: function App() {
+21:   const containerRef = useRef<HTMLDivElement>(null);
+22: 
+23:   const [currentView, setCurrentView] = useState<'home' | 'projects' | 'project'>(() => {
+24:     const hash = window.location.hash;
+25:     if (hash.startsWith('#/project/')) return 'project';
+26:     if (hash === '#/projects') return 'projects';
+27:     return 'home';
+28:   });
+29: 
+30:   const [currentProject, setCurrentProject] = useState<string | null>(() => {
+31:     const hash = window.location.hash;
+32:     return hash.startsWith('#/project/') ? hash.replace('#/project/', '') : null;
+33:   });
+34: 
+35:   useEffect(() => {
+36:     const handleHashChange = () => {
+37:       const hash = window.location.hash;
+38:       if (hash.startsWith('#/project/')) {
+39:         setCurrentView('project');
+40:         setCurrentProject(hash.replace('#/project/', ''));
+41:       } else if (hash === '#/projects') {
+42:         setCurrentView('projects');
+43:         setCurrentProject(null);
+44:       } else {
+45:         setCurrentView('home');
+46:         setCurrentProject(null);
+47:       }
+48:     };
+49:     window.addEventListener('hashchange', handleHashChange);
+50:     return () => window.removeEventListener('hashchange', handleHashChange);
+51:   }, []);
+52: 
+53: 
+54: 
+55:   const handleBackToHome = () => {
+56:     window.location.hash = '';
+57:   };
+58: 
+59:   useLayoutEffect(() => {
+60:     let ctx = gsap.context(() => {
+61:       const initScrollAnimations = () => {
+62:         // Signature draw animation
+63:         gsap.fromTo(".signature-path", 
+64:           { strokeDasharray: 300, strokeDashoffset: 300 },
+65:           { 
+66:             strokeDashoffset: 0, 
+67:             ease: "power1.out",
+68:             scrollTrigger: {
+69:               trigger: "#about",
+70:               start: "top 65%",
+71:               end: "top 45%",
+72:               scrub: 1
+73:             }
+74:           }
+75:         );
+76: 
+77:         // Global reveal-up animation for section contents
+78:         gsap.utils.toArray('.reveal-up').forEach((elem: any) => {
+79:           gsap.fromTo(elem, 
+80:             { y: 30, opacity: 0 },
+81:             { 
+82:               y: 0, 
+83:               opacity: 1, 
+84:               duration: 0.8,
+85:               ease: "power2.out",
+86:               scrollTrigger: {
+87:                 trigger: elem,
+88:                 start: "top 85%",
+89:                 toggleActions: "play none none reverse"
+90:               }
+91:             }
+92:           );
+93:         });
+94: 
+95:         // Global cascade (staggered) animation for lists and grids
+96:         gsap.utils.toArray('.reveal-cascade-container').forEach((containerItem: any) => {
+97:           const items = containerItem.querySelectorAll('.reveal-cascade-item');
+98:           if (items.length > 0) {
+99:             gsap.fromTo(items,
+100:               { y: 25, opacity: 0 },
+101:               {
+102:                 y: 0,
+103:                 opacity: 1,
+104:                 duration: 0.6,
+105:                 stagger: 0.1,
+106:                 ease: "power2.out",
+107:                 scrollTrigger: {
+108:                   trigger: containerItem,
+109:                   start: "top 80%",
+110:                   toggleActions: "play none none reverse"
+111:                 }
+112:               }
+113:             );
+114:           }
+115:         });
+116: 
+117:         // Portfolio items fade-only cascade to prevent layout coordinate shifts
+118:         gsap.utils.toArray('.reveal-portfolio-container').forEach((containerItem: any) => {
+119:           const items = containerItem.querySelectorAll('.reveal-portfolio-item');
+120:           if (items.length > 0) {
+121:             gsap.fromTo(items,
+122:               { opacity: 0 },
+123:               {
+124:                 opacity: 1,
+125:                 duration: 0.6,
+126:                 stagger: 0.1,
+127:                 ease: "power2.out",
+128:                 scrollTrigger: {
+129:                   trigger: containerItem,
+130:                   start: "top 80%",
+131:                   toggleActions: "play none none reverse"
+132:                 }
+133:               }
+134:             );
+135:           }
+136:         });
+137:       };
+138: 
+139:       setTimeout(initScrollAnimations, 100);
+140: 
+141:       const handleResize = () => {
+142:         ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+143:         initScrollAnimations();
+144:       };
+145:       window.addEventListener('resize', handleResize);
+146: 
+147:       return () => {
+148:         window.removeEventListener('resize', handleResize);
+149:       };
+150:     }, containerRef);
+151: 
+152:     return () => ctx.revert();
+153:   }, []);
+154: 
+155:   if (currentView === 'project' && currentProject) {
+156:     return <ProjectDetails projectId={currentProject} onBack={handleBackToHome} />;
+157:   }
+158: 
+159:   if (currentView === 'projects') {
+160:     return <AllProjects />;
+161:   }
+162: 
+163:   return (
+164:     <div ref={containerRef} className="relative min-h-screen bg-primary-gray overflow-x-hidden font-sans text-text-primary-navy">
+165:       {/* Structural layout vertical border grid lines */}
+166:       <div className="absolute left-[3%] right-[3%] md:left-[5%] md:right-[5%] top-0 bottom-0 pointer-events-none border-x border-border-light-gray opacity-50 z-0">
+167:         <div className="absolute top-10 -left-1.5 h-3 w-3 rounded-full bg-border-light-gray" />
+168:         <div className="absolute top-10 -right-1.5 h-3 w-3 rounded-full bg-border-light-gray" />
+169:       </div>
+170: 
+171:       <div className="relative z-10 flex flex-col min-h-screen">
+172:         <Navbar />
+173:         <Hero />
+174:         <AboutMe />
+175:         <PortfolioGrid />
+176:         <TweetsSection />
+177:         <LatestBlogs />
+178:         <SocialProof />
+179:         <Tools />
+180:         <ExperienceTimeline />
+181:         <Footer />
+182:       </div>
+183: 
+184:       {/* Mockup cards overlay removed in favor of static stack in Hero */}
+185:     </div>
+186:   );
+187: }
+188: 
+189: export default App;
+190: 
+The above content shows the entire, complete file contents of the requested file.
