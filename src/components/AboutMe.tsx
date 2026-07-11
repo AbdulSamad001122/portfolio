@@ -55,7 +55,7 @@ export default function AboutMe() {
             <div>
               <span className="text-xs font-bold uppercase tracking-wider text-accent-green">About me</span>
               <h2 className="mt-2 font-sans text-3xl font-extrabold text-text-primary-navy md:text-4xl">
-                Hi, I'm Abdul Samad, a 17-year-old developer from Karachi, Pakistan.
+                Hi, I'm Abdul Samad, a developer from Karachi, Pakistan.
               </h2>
               <p className="mt-6 font-sans text-base font-semibold leading-relaxed text-text-primary-navy">
                 My journey into development started about 6 months ago when I joined the ChaiCode Cohort. That is where I learned the fundamentals of building software from the ground up. From there, things moved fast. Instead of just sticking to tutorials, I started building real products almost immediately. I wanted to learn by actually shipping things, not just studying theory.
