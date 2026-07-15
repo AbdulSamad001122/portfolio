@@ -83,7 +83,7 @@ export default function Footer() {
     <footer id="contact" className="relative w-full bg-card-white border-t border-border-light-gray px-6 py-16 overflow-hidden">
       
       {/* Background blueprint decorative lines */}
-      <div className="absolute inset-0 pointer-events-none opacity-40 bg-[linear-gradient(to_right,hsl(220,10%,89%)_1px,transparent_1px),linear-gradient(to_bottom,hsl(220,10%,89%)_1px,transparent_1px)] bg-[size:4rem_4rem]" />
+      <div className="absolute inset-0 pointer-events-none opacity-40 bg-[linear-gradient(to_right,hsl(220,10%,89%)_1px,transparent_1px),linear-gradient(to_bottom,hsl(220,10%,89%)_1px,transparent_1px)] bg-size-[4rem_4rem]" />
 
       <div className="mx-auto max-w-7xl relative z-10 text-center flex flex-col items-center">
         

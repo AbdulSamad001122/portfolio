@@ -58,20 +58,20 @@ window.location.hash = '';
 useLayoutEffect(() => {
 let ctx = gsap.context(() => {
 const initScrollAnimations = () => {
-// Signature draw animation
-gsap.fromTo(".signature-path", 
-{ strokeDasharray: 300, strokeDashoffset: 300 },
-{ 
-strokeDashoffset: 0, 
-ease: "power1.out",
-scrollTrigger: {
-trigger: "#about",
-start: "top 65%",
-end: "top 45%",
-scrub: 1
-}
-}
-);
+      // Signature draw animation
+      gsap.fromTo("#canvas-strokes path", 
+        { strokeDasharray: 300, strokeDashoffset: 300 },
+        { 
+          strokeDashoffset: 0, 
+          ease: "power1.out",
+          scrollTrigger: {
+            trigger: "#about",
+            start: "top 65%",
+            end: "top 45%",
+            scrub: 1
+          }
+        }
+      );
 
 // Global reveal-up animation for section contents
 gsap.utils.toArray('.reveal-up').forEach((elem: any) => {

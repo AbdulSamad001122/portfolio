@@ -1,24 +1,44 @@
 import { useLayoutEffect } from 'react';
 import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Sparkles, Zap } from 'lucide-react';
 
 export default function Hero() {
   useLayoutEffect(() => {
     let ctx = gsap.context(() => {
+      const card = document.getElementById('hero-profile-card');
+      if (!card) return;
+
       const initHeroProfileAnimation = () => {
         const startSlot = document.getElementById('hero-image-slot');
         const endSlot = document.getElementById('aboutme-image-slot');
-        const card = document.getElementById('hero-profile-card');
 
-        if (!startSlot || !endSlot || !card) return;
+        if (!startSlot || !endSlot) return;
 
-        // Position the animating card statically over the starting slot
+        // Kill any existing ScrollTrigger instances with ID "hero-fly-trigger"
+        const existingTrigger = ScrollTrigger.getById("hero-fly-trigger");
+        if (existingTrigger) {
+          existingTrigger.kill();
+        }
+        gsap.killTweensOf(card);
+
+        // Calculate absolute positions relative to the document to be scroll-agnostic
         const startRect = startSlot.getBoundingClientRect();
+        const endRect = endSlot.getBoundingClientRect();
         const parentRect = startSlot.parentElement?.getBoundingClientRect() || { left: 0, top: 0 };
-        
+
+        const startTop = startRect.top + window.scrollY;
+        const startLeft = startRect.left + window.scrollX;
+        const parentTop = parentRect.top + window.scrollY;
+        const parentLeft = parentRect.left + window.scrollX;
+
+        const endTop = endRect.top + window.scrollY;
+        const endLeft = endRect.left + window.scrollX;
+
+        // Position the animating card statically over the starting slot initially
         gsap.set(card, {
-          left: startRect.left - parentRect.left,
-          top: startRect.top - parentRect.top,
+          left: startLeft - parentLeft,
+          top: startTop - parentTop,
           width: startRect.width,
           height: startRect.height,
           x: 0,
@@ -27,10 +47,9 @@ export default function Hero() {
           rotation: -2,
         });
 
-        // Calculate delta transitions relative to viewport coordinates
-        const endRect = endSlot.getBoundingClientRect();
-        const dx = endRect.left - startRect.left;
-        const dy = endRect.top - startRect.top;
+        // Delta transitions relative to document coords
+        const dx = endLeft - startLeft;
+        const dy = endTop - startTop;
 
         // ScrollTrigger animation timeline (3D swivel + fly-to-slot)
         gsap.fromTo(card,
@@ -53,6 +72,7 @@ export default function Hero() {
             transformPerspective: 1200,
             ease: "none",
             scrollTrigger: {
+              id: "hero-fly-trigger",
               trigger: startSlot,
               start: "center center",
               endTrigger: endSlot,
@@ -64,26 +84,47 @@ export default function Hero() {
         );
       };
 
-      // Delay slightly to ensure layout rendering has settled
-      setTimeout(initHeroProfileAnimation, 150);
+      // Set up listeners for load events to capture correct rects
+      const img = card.querySelector('img');
+      if (img) {
+        if (img.complete) {
+          initHeroProfileAnimation();
+        } else {
+          img.addEventListener('load', initHeroProfileAnimation);
+        }
+      } else {
+        initHeroProfileAnimation();
+      }
 
+      // Re-initialize on resize
       const handleResize = () => {
         initHeroProfileAnimation();
       };
       window.addEventListener('resize', handleResize);
-      return () => window.removeEventListener('resize', handleResize);
+      
+      // Force scroll trigger refresh on load completion
+      window.addEventListener('load', () => {
+        ScrollTrigger.refresh();
+      });
+
+      return () => {
+        window.removeEventListener('resize', handleResize);
+        if (img) {
+          img.removeEventListener('load', initHeroProfileAnimation);
+        }
+      };
     });
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <section className="relative z-30 w-full border-b border-border-light-gray bg-primary-gray px-6 py-12 md:py-20 select-none overflow-visible">
+    <section className="relative z-30 w-full border-b border-border-light-gray bg-primary-gray px-6 py-6 md:py-20 select-none overflow-visible">
       {/* Background blueprint decorative lines */}
-      <div className="absolute inset-0 pointer-events-none opacity-40 bg-[linear-gradient(to_right,hsl(220,10%,89%)_1px,transparent_1px),linear-gradient(to_bottom,hsl(220,10%,89%)_1px,transparent_1px)] bg-[size:4rem_4rem]" />
+      <div className="absolute inset-0 pointer-events-none opacity-40 bg-[linear-gradient(to_right,hsl(220,10%,89%)_1px,transparent_1px),linear-gradient(to_bottom,hsl(220,10%,89%)_1px,transparent_1px)] bg-size-[4rem_4rem]" />
 
       {/* Outer wrapper with perspective container */}
-      <div className="mx-auto max-w-7xl relative z-10 flex flex-col items-center justify-center min-h-[80vh] md:min-h-[85vh]">
+      <div className="mx-auto max-w-7xl relative z-10 flex flex-col items-center justify-center min-h-0 py-4 md:py-0 md:min-h-[85vh]">
         
         {/* Brutalist Large Typography Frame container */}
         <div className="relative w-full max-w-5xl flex flex-col items-center justify-center py-6">
@@ -117,6 +158,7 @@ export default function Hero() {
                 src="/branding/my-img.png" 
                 alt="Abdul Samad portrait" 
                 className="w-full h-full object-cover rounded-2xl bg-primary-gray/20"
+                fetchPriority="high"
               />
             </div>
           </div>
