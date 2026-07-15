@@ -22,6 +22,12 @@ export default function Hero() {
         }
         gsap.killTweensOf(card);
 
+        // Skip animation on mobile viewports (< 768px)
+        if (window.innerWidth < 768) {
+          gsap.set(card, { clearProps: "all" });
+          return;
+        }
+
         // Calculate absolute positions relative to the document to be scroll-agnostic
         const startRect = startSlot.getBoundingClientRect();
         const endRect = endSlot.getBoundingClientRect();
@@ -140,7 +146,7 @@ export default function Hero() {
           </h1>
 
           {/* Centered Starting Slot for the profile image card */}
-          <div className="relative flex justify-center py-3 z-30">
+          <div className="relative flex justify-center py-3 z-30 hidden md:flex">
             <div 
               id="hero-image-slot"
               className="w-56 h-72 md:w-72 md:h-96 rounded-3xl border-2 border-dashed border-border-light-gray bg-card-white/10 relative pointer-events-none flex items-center justify-center text-text-secondary-gray/10 text-xs font-mono font-semibold"

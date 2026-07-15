@@ -23,7 +23,15 @@ export default function AboutMe() {
                 id="aboutme-image-slot"
                 className="relative z-10 h-full w-full rounded-xl bg-primary-gray/30 border border-dashed border-border-light-gray/40 flex items-center justify-center text-text-secondary-gray/20 text-xs font-mono font-semibold"
               >
-                [profile_image]
+                {/* Static image displayed only on mobile viewports */}
+                <div className="md:hidden w-full h-full overflow-hidden rounded-lg">
+                  <img 
+                    src="/branding/my-img.png" 
+                    alt="Abdul Samad portrait" 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <span className="hidden md:inline">[profile_image]</span>
               </div>
             </div>
 
