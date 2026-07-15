@@ -3,7 +3,7 @@ import { MessageSquare, Repeat, Heart, BarChart2, Github } from "lucide-react";
 export default function TweetsSection() {
   const handleXClick = () => {
     window.open(
-      "https://x.com/abdul_sama60108",
+      "https://x.com/thesamadcodes",
       "_blank",
       "noopener,noreferrer",
     );
@@ -172,7 +172,7 @@ export default function TweetsSection() {
                         Abdul Samad
                       </span>
                       <span className="text-[11px] font-semibold text-text-secondary-gray">
-                        @abdul_sama60108
+                        @thesamadcodes
                       </span>
                     </div>
                   </div>
@@ -259,7 +259,7 @@ export default function TweetsSection() {
         {/* See My Journey More CTA Button */}
         <div className="mt-12 flex justify-center reveal-up">
           <a
-            href="https://x.com/abdul_sama60108"
+            href="https://x.com/thesamadcodes"
             target="_blank"
             rel="noopener noreferrer"
             className="group flex items-center gap-2 rounded-full border border-text-primary-navy/20 bg-card-white px-8 py-4 text-sm font-bold text-text-primary-navy shadow-sm transition-all hover:bg-accent-green hover:text-card-white hover:border-accent-green hover:shadow-md"

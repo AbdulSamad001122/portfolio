@@ -204,7 +204,7 @@ export default function Footer() {
           
           {/* Social icons */}
           <div className="flex items-center gap-5">
-            <a href="https://x.com/abdul_sama60108" target="_blank" rel="noopener noreferrer" className="hover:text-accent-green transition-colors flex items-center justify-center">
+            <a href="https://x.com/thesamadcodes" target="_blank" rel="noopener noreferrer" className="hover:text-accent-green transition-colors flex items-center justify-center">
               <svg className="h-[15px] w-[15px] fill-current" viewBox="0 0 24 24">
                 <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
               </svg>
