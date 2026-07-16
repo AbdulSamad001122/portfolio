@@ -125,15 +125,15 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="relative z-30 w-full border-b border-border-light-gray bg-primary-gray px-6 py-6 md:py-20 select-none overflow-visible">
+    <section className="relative z-30 w-full border-b border-border-light-gray bg-primary-gray px-6 pt-6 pb-2 md:py-20 select-none overflow-visible">
       {/* Background blueprint decorative lines */}
       <div className="absolute inset-0 pointer-events-none opacity-40 bg-[linear-gradient(to_right,hsl(220,10%,89%)_1px,transparent_1px),linear-gradient(to_bottom,hsl(220,10%,89%)_1px,transparent_1px)] bg-size-[4rem_4rem]" />
 
       {/* Outer wrapper with perspective container */}
-      <div className="mx-auto max-w-7xl relative z-10 flex flex-col items-center justify-center min-h-0 py-4 md:py-0 md:min-h-[85vh]">
+      <div className="mx-auto max-w-7xl relative z-10 flex flex-col items-center justify-center min-h-0 pt-4 pb-2 md:py-0 md:min-h-[85vh]">
         
         {/* Brutalist Large Typography Frame container */}
-        <div className="relative w-full max-w-5xl flex flex-col items-center justify-center py-6">
+        <div className="relative w-full max-w-5xl flex flex-col items-center justify-center pt-6 pb-2 md:py-6">
           
           {/* Top Left Sparkle Star */}
           <div className="absolute top-0 left-4 md:-left-8 text-text-primary-navy/80 hover:text-accent-green hover:scale-110 transition-transform duration-300 pointer-events-auto cursor-help">
